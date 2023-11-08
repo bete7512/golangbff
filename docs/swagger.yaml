@@ -1,0 +1,232 @@
+basePath: /v1
+definitions:
+  handlers.CreatePostRequest:
+    properties:
+      body:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  handlers.CreateUser:
+    properties:
+      age:
+        type: integer
+      name:
+        type: string
+    type: object
+  handlers.PostResponse:
+    properties:
+      body:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  handlers.UpdatePostRequest:
+    properties:
+      body:
+        type: string
+      title:
+        type: string
+    type: object
+  handlers.UpdateUserRequest:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  handlers.UserResponse:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:5678
+info:
+  contact: {}
+  description: This is the Swagger Testing API.
+  title: Blog API
+  version: "1.0"
+paths:
+  /posts:
+    get:
+      consumes:
+      - application/json
+      description: Get all posts.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.PostResponse'
+            type: array
+      summary: Get all posts
+    post:
+      consumes:
+      - application/json
+      description: Create a new post.
+      parameters:
+      - description: Post data
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreatePostRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostResponse'
+      summary: Create a new post
+  /posts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a post by ID.
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostResponse'
+      summary: Delete a post
+    get:
+      consumes:
+      - application/json
+      description: Get a post by ID.
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostResponse'
+      summary: Get a post
+    put:
+      consumes:
+      - application/json
+      description: Update a post by ID.
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Post object
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdatePostRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostResponse'
+      summary: Update a post
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.UserResponse'
+            type: array
+      summary: Get all users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUser'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserResponse'
+      summary: Create a new user
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserResponse'
+      summary: Delete a user
+    get:
+      consumes:
+      - application/json
+      description: Get a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserResponse'
+      summary: Get a user
+    put:
+      consumes:
+      - application/json
+      description: Update a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserResponse'
+      summary: Update a user
+swagger: "2.0"
