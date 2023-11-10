@@ -295,7 +295,10 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
-                "name": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
                     "type": "string"
                 }
             }
@@ -334,10 +337,13 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
+                "first_name": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "last_name": {
                     "type": "string"
                 }
             }
@@ -348,10 +354,13 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
+                "first_name": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "last_name": {
                     "type": "string"
                 }
             }

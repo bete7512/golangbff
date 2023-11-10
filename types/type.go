@@ -4,8 +4,9 @@ import "gorm.io/gorm"
 
 type Users struct {
 	gorm.Model
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
 }
 
 type Posts struct {

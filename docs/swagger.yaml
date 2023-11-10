@@ -13,7 +13,9 @@ definitions:
     properties:
       age:
         type: integer
-      name:
+      first_name:
+        type: string
+      last_name:
         type: string
     type: object
   handlers.PostResponse:
@@ -38,18 +40,22 @@ definitions:
     properties:
       age:
         type: integer
+      first_name:
+        type: string
       id:
         type: integer
-      name:
+      last_name:
         type: string
     type: object
   handlers.UserResponse:
     properties:
       age:
         type: integer
+      first_name:
+        type: string
       id:
         type: integer
-      name:
+      last_name:
         type: string
     type: object
 host: localhost:5678

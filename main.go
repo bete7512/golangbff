@@ -1,15 +1,19 @@
 package main
 
 import (
+	"context"
 	"log"
 
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/go-self-learning/docs"
 	"github.com/go-self-learning/handlers"
 	"github.com/go-self-learning/types"
-	"gorm.io/driver/postgres"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -18,16 +22,18 @@ import (
 // @description This is the Swagger Testing API.
 // @host localhost:5678
 // @BasePath /v1
-func main() {
+
+var ginLambda *ginadapter.GinLambda
+
+func init() {
 
 	router := gin.Default()
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
+	router.GET("/test", func(c *gin.Context) {
+		c.Redirect(302, "/swagger/index.html")
 	})
-	dsn := "host=localhost user=gorm_user password=gorm_password dbname=gorm_db port=5432 sslmode=disable"
+
+	dsn := "host=ep-cool-hill-178722.eu-central-1.aws.neon.tech user=postgres password=5xIfpXrVEW2s dbname=aws-todo  sslmode=require"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
@@ -51,5 +57,14 @@ func main() {
 	router.DELETE("/api/v1/posts/:id", postController.DeletePost)
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	router.Run(":5678")
+	ginLambda = ginadapter.New(router)
+
+}
+
+func HandleLambdaEvent(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return ginLambda.ProxyWithContext(ctx, req)
+}
+
+func main() {
+	lambda.Start(HandleLambdaEvent)
 }

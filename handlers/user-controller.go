@@ -30,22 +30,26 @@ func (u *UserController) CreateUser(c *gin.Context) {
 }
 
 type UserResponse struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	ID        uint   `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
 }
 type CreateUserRequest struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
 }
 type CreateUser struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
 }
 type UpdateUserRequest struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	ID        uint   `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Age       int    `json:"age"`
 }
 
 // @Summary Get all users
