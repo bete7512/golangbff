@@ -66,6 +66,8 @@ func init() {
 	router.GET("/api/v1/posts/:id", postController.GetPost)
 	router.PUT("/api/v1/posts/:id", postController.UpdatePost)
 	router.DELETE("/api/v1/posts/:id", postController.DeletePost)
+	// docs.SwaggerInfo.BasePath = "/api/v1"
+	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	ginLambda = ginadapter.New(router)
 
 }

@@ -46,6 +46,9 @@ functions:
       - http:
           path: /api/v1/posts/{id}
           method: DELETE
+      # - http:
+      #     path: /swagger/{proxy+}
+      #     method: GET
 package:
   patterns:
     - "!*/**"
