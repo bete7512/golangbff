@@ -3,14 +3,49 @@ provider:
   name: aws
   runtime: go1.x
   region: us-east-1
-  stage: ${opt:stage}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    DB_HOST: ep-cool-hill-178722.eu-central-1.aws.neon.tech
+    DB_USER: postgres
+    DB_PASSWORD: 5xIfpXrVEW2s
+    DB_NAME: aws-todo
 functions:
   api:
     handler: bin/main
     events:
       - http:
-          path: /test
+          path: /
           method: GET
+      - http:
+          path: /api/v1/users
+          method: GET
+      - http:
+          path: /api/v1/users
+          method: POST
+      - http:
+          path: /api/v1/users/{id}
+          method: GET
+      - http:
+          path: /api/v1/users/{id}
+          method: PUT
+      - http:
+          path: /api/v1/users/{id}
+          method: DELETE
+      - http:
+          path: /api/v1/posts
+          method: GET
+      - http:
+          path: /api/v1/posts
+          method: POST
+      - http:
+          path: /api/v1/posts/{id}
+          method: GET
+      - http:
+          path: /api/v1/posts/{id}
+          method: PUT
+      - http:
+          path: /api/v1/posts/{id}
+          method: DELETE
 package:
   patterns:
     - "!*/**"

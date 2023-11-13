@@ -2,17 +2,16 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
-	"github.com/go-self-learning/docs"
 	"github.com/go-self-learning/handlers"
 	"github.com/go-self-learning/types"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -29,11 +28,23 @@ func init() {
 
 	router := gin.Default()
 
-	router.GET("/test", func(c *gin.Context) {
-		c.Redirect(302, "/swagger/index.html")
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(
+			200,
+			gin.H{
+				"message": "hello world",
+			},
+		)
 	})
 
-	dsn := "host=ep-cool-hill-178722.eu-central-1.aws.neon.tech user=postgres password=5xIfpXrVEW2s dbname=aws-todo  sslmode=require"
+	// dsn := "host=ep-cool-hill-178722.eu-central-1.aws.neon.tech user=postgres password=5xIfpXrVEW2s dbname=aws-todo  sslmode=require"
+
+	dbHost := os.Getenv("DB_HOST")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=require", dbHost, dbUser, dbPassword, dbName)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
@@ -55,8 +66,6 @@ func init() {
 	router.GET("/api/v1/posts/:id", postController.GetPost)
 	router.PUT("/api/v1/posts/:id", postController.UpdatePost)
 	router.DELETE("/api/v1/posts/:id", postController.DeletePost)
-	docs.SwaggerInfo.BasePath = "/api/v1"
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	ginLambda = ginadapter.New(router)
 
 }
